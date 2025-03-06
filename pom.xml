@@ -99,6 +99,46 @@
       <version>3.0.2</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+      <version>1.3.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>5.3.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-inline</artifactId>
+      <version>5.2.0</version> <!-- Ensure this is the latest version -->
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-subclass</artifactId>
+      <version>5.11.0</version>
+    </dependency>
+    <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy-agent</artifactId>
+      <version>1.14.4</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy</artifactId>
+      <version>1.14.4</version>
+      <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>org.objenesis</groupId>
+      <artifactId>objenesis</artifactId>
+      <version>3.3</version>  <!-- Use the latest stable version -->
+    </dependency>
+
   </dependencies>
 
   <distributionManagement>
@@ -113,7 +153,8 @@
     <argLine>-Xmx512m</argLine>
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <!-- project.build.outputTimestamp is managed by Maven plugins, see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
+    <!-- project.build.outputTimestamp is managed by Maven plugins, see
+    https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
     <project.build.outputTimestamp>2024-08-29T19:40:12Z</project.build.outputTimestamp>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
@@ -144,14 +185,16 @@
     <commons.jira.pid>12310481</commons.jira.pid>
 
     <commons.site.path>lang</commons.site.path>
-    <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-lang</commons.scmPubUrl>
+    <commons.scmPubUrl>
+      https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-lang</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
     <commons.encoding>utf-8</commons.encoding>
 
     <checkstyle.configdir>src/site/resources/checkstyle</checkstyle.configdir>
 
     <japicmp.skip>false</japicmp.skip>
-    <!-- JMH Benchmark related properties, version, target compiler and name of the benchmarking uber jar. -->
+    <!-- JMH Benchmark related properties, version, target compiler and name of the benchmarking
+    uber jar. -->
     <jmh.version>1.37</jmh.version>
     <uberjar.name>benchmarks</uberjar.name>
 
@@ -172,8 +215,8 @@
   </properties>
 
   <build>
-   <defaultGoal>clean verify apache-rat:check checkstyle:check japicmp:cmp spotbugs:check pmd:check javadoc:javadoc</defaultGoal>
-   <pluginManagement>
+    <defaultGoal>clean verify apache-rat:check checkstyle:check japicmp:cmp spotbugs:check pmd:check javadoc:javadoc</defaultGoal>
+    <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -205,39 +248,40 @@
     <plugins>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-          <configuration>
-            <source>${maven.compiler.source}</source>
-            <quiet>true</quiet>
-            <notimestamp>true</notimestamp>
-            <validateLinks>true</validateLinks>
-            <archive>
-              <manifest>
-                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-              </manifest>
-            </archive>
-            <doclint>all</doclint>
-            <!-- Java 8 on GH says: "[WARNING] javadoc: warning - Error fetching URL: https://commons.apache.org/proper/commons-text/apidocs/" -->
-            <!-- <failOnWarnings>true</failOnWarnings> -->
-            <additionalDependencies>
-              <additionalDependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-text</artifactId>
-                <version>${commons.text.version}</version>
-              </additionalDependency>
-            </additionalDependencies>
-          </configuration>
-          <executions>
-            <execution>
-              <id>create-javadoc-jar</id>
-              <goals>
-                <goal>javadoc</goal>
-                <goal>jar</goal>
-              </goals>
-              <phase>package</phase>
-            </execution>
-          </executions>
-        </plugin>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <quiet>true</quiet>
+          <notimestamp>true</notimestamp>
+          <validateLinks>true</validateLinks>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+            </manifest>
+          </archive>
+          <doclint>all</doclint>
+          <!-- Java 8 on GH says: "[WARNING] javadoc: warning - Error fetching URL:
+          https://commons.apache.org/proper/commons-text/apidocs/" -->
+          <!-- <failOnWarnings>true</failOnWarnings> -->
+          <additionalDependencies>
+            <additionalDependency>
+              <groupId>org.apache.commons</groupId>
+              <artifactId>commons-text</artifactId>
+              <version>${commons.text.version}</version>
+            </additionalDependency>
+          </additionalDependencies>
+        </configuration>
+        <executions>
+          <execution>
+            <id>create-javadoc-jar</id>
+            <goals>
+              <goal>javadoc</goal>
+              <goal>jar</goal>
+            </goals>
+            <phase>package</phase>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -251,8 +295,10 @@
               <trimStackTrace>false</trimStackTrace>
             </configuration>
           </execution>
-          <!-- <execution> <id>security-manager-test</id> <phase>integration-test</phase> <goals> <goal>test</goal> </goals> <configuration>
-            <includes> <include>**/*Test.java</include> </includes> <argLine>-Djava.security.manager -Djava.security.policy=${basedir}/src/test/resources/java.policy</argLine>
+          <!-- <execution> <id>security-manager-test</id> <phase>integration-test</phase> <goals>
+          <goal>test</goal> </goals> <configuration>
+            <includes> <include>**/*Test.java</include> </includes> <argLine>-Djava.security.manager
+          -Djava.security.policy=${basedir}/src/test/resources/java.policy</argLine>
             </configuration> </execution> -->
         </executions>
       </plugin>
@@ -430,11 +476,13 @@
                 <configuration>
                   <target>
                     <exec executable="svn">
-                      <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}" />
+                      <arg
+                        line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}" />
                     </exec>
 
                     <exec executable="svn">
-                      <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs" />
+                      <arg
+                        line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs" />
                     </exec>
 
                     <pathconvert pathsep=" " property="dirs">
@@ -458,9 +506,13 @@
         <jdk>[9,)</jdk>
       </activation>
       <properties>
-        <!-- LANG-1265: allow tests to access private fields/methods of java.base classes via reflection -->
-        <!-- LANG-1667: allow tests to access private fields/methods of java.base/java.util such as ArrayList via reflection -->
-        <argLine>-Xmx512m --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.time=ALL-UNNAMED --add-opens java.base/java.time.chrono=ALL-UNNAMED</argLine>
+        <!-- LANG-1265: allow tests to access private fields/methods of java.base classes via
+        reflection -->
+        <!-- LANG-1667: allow tests to access private fields/methods of java.base/java.util such as
+        ArrayList via reflection -->
+        <argLine>-Xmx512m --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens
+          java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens
+          java.base/java.time=ALL-UNNAMED --add-opens java.base/java.time.chrono=ALL-UNNAMED</argLine>
       </properties>
     </profile>
     <profile>
@@ -476,10 +528,10 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <excludes>
-                <exclude>org/apache/commons/lang3/time/Java15BugFastDateParserTest.java</exclude>               
+                <exclude>org/apache/commons/lang3/time/Java15BugFastDateParserTest.java</exclude>
               </excludes>
             </configuration>
-          </plugin>        
+          </plugin>
         </plugins>
       </build>
     </profile>
@@ -507,7 +559,7 @@
                   <executable>java</executable>
                   <arguments>
                     <argument>-classpath</argument>
-                    <classpath/>
+                    <classpath />
                     <argument>org.openjdk.jmh.Main</argument>
                     <argument>-rf</argument>
                     <argument>json</argument>
