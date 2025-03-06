@@ -17,54 +17,38 @@
 
 package org.apache.commons.lang3.function;
 
-import java.util.Objects;
-import java.util.function.IntConsumer;
-
 /**
- * A functional interface like {@link IntConsumer} that declares a {@link Throwable}.
+ * A functional interface like a {@code ToBooleanFunction} that declares a {@link Throwable}.
  *
+ * @param <T> the type of the argument to the function
  * @param <E> The kind of thrown exception or error.
- * @since 3.11
+ * @since 3.18
  */
 @FunctionalInterface
-public interface FailableIntConsumer<E extends Throwable> {
+public interface FailableToBooleanFunction<T, E extends Throwable> {
 
     /** NOP singleton */
     @SuppressWarnings("rawtypes")
-    FailableIntConsumer NOP = t -> { /* NOP */ };
+    FailableToBooleanFunction NOP = t -> false;
 
     /**
      * Returns the NOP singleton.
      *
+     * @param <T> the type of the argument to the function
      * @param <E> The kind of thrown exception or error.
      * @return The NOP singleton.
      */
     @SuppressWarnings("unchecked")
-    static <E extends Throwable> FailableIntConsumer<E> nop() {
+    static <T, E extends Throwable> FailableToBooleanFunction<T, E> nop() {
         return NOP;
     }
 
     /**
-     * Accepts the given arguments.
+     * Applies this function to the given arguments.
      *
-     * @param value the parameter for the consumable to accept
-     * @throws E Thrown when the consumer fails.
+     * @param t the first function argument
+     * @return the function result
+     * @throws E Thrown when the function fails.
      */
-    void accept(int value) throws E;
-
-    /**
-     * Returns a composed {@link FailableIntConsumer} like {@link IntConsumer#andThen(IntConsumer)}.
-     *
-     * @param after the operation to perform after this one.
-     * @return a composed {@link FailableLongConsumer} like {@link IntConsumer#andThen(IntConsumer)}.
-     * @throws NullPointerException if {@code after} is null
-     */
-    default FailableIntConsumer<E> andThen(final FailableIntConsumer<E> after) {
-        Objects.requireNonNull(after);
-        return (final int t) -> {
-            accept(t);
-            after.accept(t);
-        };
-    }
-
+    boolean applyAsBoolean(T t) throws E;
 }

@@ -38,6 +38,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang3.AbstractLangTest;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -975,6 +976,11 @@ public class FailableFunctionsTest extends AbstractLangTest {
     }
 
     @Test
+    public void testFailableToBooleanFunctionNop() throws Throwable {
+        assertEquals(false, FailableToBooleanFunction.nop().applyAsBoolean("Foo"), "Expect NOP to return false");
+    }
+
+    @Test
     public void testFailableToDoubleBiFunctionNop() throws Throwable {
         assertEquals(0, FailableToDoubleBiFunction.nop().applyAsDouble("Foo", "Bar"), "Expect NOP to return 0");
     }
@@ -1507,13 +1513,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableBiConsumer_Object_Throwable() {
-        new FailableBiConsumer<Object, Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableBiConsumer<Object, Object, Throwable>() {
 
             @Override
             public void accept(final Object object1, final Object object2) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.accept(new Object(), new Object()));
     }
 
     /**
@@ -1522,14 +1528,14 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableBiConsumer_String_IOException() {
-        new FailableBiConsumer<String, String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableBiConsumer<String, String, IOException>() {
 
             @Override
             public void accept(final String object1, final String object2) throws IOException {
                 throw new IOException("test");
 
             }
-        };
+        }.accept(StringUtils.EMPTY, StringUtils.EMPTY));
     }
 
     /**
@@ -1538,13 +1544,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableBiFunction_Object_Throwable() {
-        new FailableBiFunction<Object, Object, Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableBiFunction<Object, Object, Object, Throwable>() {
 
             @Override
             public Object apply(final Object input1, final Object input2) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.apply(new Object(), new Object()));
     }
 
     /**
@@ -1553,13 +1559,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableBiFunction_String_IOException() {
-        new FailableBiFunction<String, String, String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableBiFunction<String, String, String, IOException>() {
 
             @Override
             public String apply(final String input1, final String input2) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.apply(StringUtils.EMPTY, StringUtils.EMPTY));
     }
 
     /**
@@ -1568,13 +1574,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableBiPredicate_Object_Throwable() {
-        new FailableBiPredicate<Object, Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableBiPredicate<Object, Object, Throwable>() {
 
             @Override
             public boolean test(final Object object1, final Object object2) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.test(new Object(), new Object()));
     }
 
     /**
@@ -1583,13 +1589,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableBiPredicate_String_IOException() {
-        new FailableBiPredicate<String, String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableBiPredicate<String, String, IOException>() {
 
             @Override
             public boolean test(final String object1, final String object2) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.test(StringUtils.EMPTY, StringUtils.EMPTY));
     }
 
     /**
@@ -1598,13 +1604,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableBooleanSupplier_IOException() {
-        new FailableBooleanSupplier<IOException>() {
+        assertThrows(IOException.class, () -> new FailableBooleanSupplier<IOException>() {
 
             @Override
             public boolean getAsBoolean() throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.getAsBoolean());
     }
 
     /**
@@ -1613,13 +1619,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableBooleanSupplier_Throwable() {
-        new FailableBooleanSupplier<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableBooleanSupplier<Throwable>() {
 
             @Override
             public boolean getAsBoolean() throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.getAsBoolean());
     }
 
     /**
@@ -1628,13 +1634,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableCallable_Object_Throwable() {
-        new FailableCallable<Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableCallable<Object, Throwable>() {
 
             @Override
             public Object call() throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.call());
     }
 
     /**
@@ -1643,13 +1649,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableCallable_String_IOException() {
-        new FailableCallable<String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableCallable<String, IOException>() {
 
             @Override
             public String call() throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.call());
     }
 
     /**
@@ -1658,14 +1664,14 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableConsumer_Object_Throwable() {
-        new FailableConsumer<Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableConsumer<Object, Throwable>() {
 
             @Override
             public void accept(final Object object) throws Throwable {
                 throw new IOException("test");
 
             }
-        };
+        }.accept(new Object()));
     }
 
     /**
@@ -1674,14 +1680,14 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableConsumer_String_IOException() {
-        new FailableConsumer<String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableConsumer<String, IOException>() {
 
             @Override
             public void accept(final String object) throws IOException {
                 throw new IOException("test");
 
             }
-        };
+        }.accept(StringUtils.EMPTY));
     }
 
     /**
@@ -1690,13 +1696,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableDoubleBinaryOperator_IOException() {
-        new FailableDoubleBinaryOperator<IOException>() {
+        assertThrows(IOException.class, () -> new FailableDoubleBinaryOperator<IOException>() {
 
             @Override
             public double applyAsDouble(final double left, final double right) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsDouble(0, 0));
     }
 
     /**
@@ -1705,13 +1711,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableDoubleBinaryOperator_Throwable() {
-        new FailableDoubleBinaryOperator<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableDoubleBinaryOperator<Throwable>() {
 
             @Override
             public double applyAsDouble(final double left, final double right) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsDouble(0, 0));
     }
 
     /**
@@ -1720,13 +1726,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableDoubleConsumer_IOException() {
-        new FailableDoubleConsumer<IOException>() {
+        assertThrows(IOException.class, () -> new FailableDoubleConsumer<IOException>() {
 
             @Override
             public void accept(final double value) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.accept(0));
     }
 
     /**
@@ -1735,14 +1741,14 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableDoubleConsumer_Throwable() {
-        new FailableDoubleConsumer<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableDoubleConsumer<Throwable>() {
 
             @Override
             public void accept(final double value) throws Throwable {
                 throw new IOException("test");
 
             }
-        };
+        }.accept(0));
     }
 
     /**
@@ -1751,13 +1757,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableDoubleFunction_IOException() {
-        new FailableDoubleFunction<String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableDoubleFunction<String, IOException>() {
 
             @Override
             public String apply(final double input) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.apply(0));
     }
 
     /**
@@ -1766,13 +1772,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableDoubleFunction_Throwable() {
-        new FailableDoubleFunction<Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableDoubleFunction<Object, Throwable>() {
 
             @Override
             public Object apply(final double input) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.apply(0));
     }
 
     /**
@@ -1781,13 +1787,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableDoubleSupplier_IOException() {
-        new FailableDoubleSupplier<IOException>() {
+        assertThrows(IOException.class, () -> new FailableDoubleSupplier<IOException>() {
 
             @Override
             public double getAsDouble() throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.getAsDouble());
     }
 
     /**
@@ -1796,13 +1802,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableDoubleSupplier_Throwable() {
-        new FailableDoubleSupplier<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableDoubleSupplier<Throwable>() {
 
             @Override
             public double getAsDouble() throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.getAsDouble());
     }
 
     /**
@@ -1811,13 +1817,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableDoubleToIntFunction_IOException() {
-        new FailableDoubleToIntFunction<IOException>() {
+        assertThrows(IOException.class, () -> new FailableDoubleToIntFunction<IOException>() {
 
             @Override
             public int applyAsInt(final double value) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsInt(0));
     }
 
     /**
@@ -1826,13 +1832,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableDoubleToIntFunction_Throwable() {
-        new FailableDoubleToIntFunction<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableDoubleToIntFunction<Throwable>() {
 
             @Override
             public int applyAsInt(final double value) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsInt(0));
     }
 
     /**
@@ -1841,13 +1847,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableDoubleToLongFunction_IOException() {
-        new FailableDoubleToLongFunction<IOException>() {
+        assertThrows(IOException.class, () -> new FailableDoubleToLongFunction<IOException>() {
 
             @Override
             public int applyAsLong(final double value) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsLong(0));
     }
 
     /**
@@ -1856,13 +1862,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableDoubleToLongFunction_Throwable() {
-        new FailableDoubleToLongFunction<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableDoubleToLongFunction<Throwable>() {
 
             @Override
             public int applyAsLong(final double value) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsLong(0));
     }
 
     /**
@@ -1871,13 +1877,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableFunction_Object_Throwable() {
-        new FailableFunction<Object, Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableFunction<Object, Object, Throwable>() {
 
             @Override
             public Object apply(final Object input) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.apply(new Object()));
     }
 
     /**
@@ -1886,13 +1892,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableFunction_String_IOException() {
-        new FailableFunction<String, String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableFunction<String, String, IOException>() {
 
             @Override
             public String apply(final String input) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.apply(StringUtils.EMPTY));
     }
 
     /**
@@ -1901,13 +1907,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableIntBinaryOperator_IOException() {
-        new FailableIntBinaryOperator<IOException>() {
+        assertThrows(IOException.class, () -> new FailableIntBinaryOperator<IOException>() {
 
             @Override
             public int applyAsInt(final int left, final int right) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsInt(0, 0));
     }
 
     /**
@@ -1916,13 +1922,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableIntBinaryOperator_Throwable() {
-        new FailableIntBinaryOperator<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableIntBinaryOperator<Throwable>() {
 
             @Override
             public int applyAsInt(final int left, final int right) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsInt(0, 0));
     }
 
     /**
@@ -1931,13 +1937,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableIntConsumer_IOException() {
-        new FailableIntConsumer<IOException>() {
+        assertThrows(IOException.class, () -> new FailableIntConsumer<IOException>() {
 
             @Override
             public void accept(final int value) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.accept(0));
     }
 
     /**
@@ -1946,14 +1952,14 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableIntConsumer_Throwable() {
-        new FailableIntConsumer<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableIntConsumer<Throwable>() {
 
             @Override
             public void accept(final int value) throws Throwable {
                 throw new IOException("test");
 
             }
-        };
+        }.accept(0));
     }
 
     /**
@@ -1962,13 +1968,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableIntFunction_Object_Throwable() {
-        new FailableIntFunction<Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableIntFunction<Object, Throwable>() {
 
             @Override
             public Object apply(final int input) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.apply(0));
     }
 
     /**
@@ -1977,13 +1983,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableIntFunction_String_IOException() {
-        new FailableIntFunction<String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableIntFunction<String, IOException>() {
 
             @Override
             public String apply(final int input) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.apply(0));
     }
 
     /**
@@ -1992,13 +1998,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableIntSupplier_IOException() {
-        new FailableIntSupplier<IOException>() {
+        assertThrows(IOException.class, () -> new FailableIntSupplier<IOException>() {
 
             @Override
             public int getAsInt() throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.getAsInt());
     }
 
     /**
@@ -2007,13 +2013,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableIntSupplier_Throwable() {
-        new FailableIntSupplier<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableIntSupplier<Throwable>() {
 
             @Override
             public int getAsInt() throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.getAsInt());
     }
 
     /**
@@ -2022,13 +2028,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableIntToDoubleFunction_IOException() {
-        new FailableIntToDoubleFunction<IOException>() {
+        assertThrows(IOException.class, () -> new FailableIntToDoubleFunction<IOException>() {
 
             @Override
             public double applyAsDouble(final int value) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsDouble(0));
     }
 
     /**
@@ -2037,13 +2043,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableIntToDoubleFunction_Throwable() {
-        new FailableIntToDoubleFunction<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableIntToDoubleFunction<Throwable>() {
 
             @Override
             public double applyAsDouble(final int value) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsDouble(0));
     }
 
     /**
@@ -2052,13 +2058,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableIntToFloatFunction_IOException() {
-        new FailableIntToFloatFunction<IOException>() {
+        assertThrows(IOException.class, () -> new FailableIntToFloatFunction<IOException>() {
 
             @Override
             public float applyAsFloat(final int value) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsFloat(0));
     }
 
     /**
@@ -2067,13 +2073,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableIntToFloatFunction_Throwable() {
-        new FailableIntToFloatFunction<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableIntToFloatFunction<Throwable>() {
 
             @Override
             public float applyAsFloat(final int value) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsFloat(0));
     }
 
     /**
@@ -2082,13 +2088,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableIntToLongFunction_IOException() {
-        new FailableIntToLongFunction<IOException>() {
+        assertThrows(IOException.class, () -> new FailableIntToLongFunction<IOException>() {
 
             @Override
             public long applyAsLong(final int value) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsLong(0));
     }
 
     /**
@@ -2097,13 +2103,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableIntToLongFunction_Throwable() {
-        new FailableIntToLongFunction<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableIntToLongFunction<Throwable>() {
 
             @Override
             public long applyAsLong(final int value) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsLong(0));
     }
 
     /**
@@ -2112,13 +2118,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableLongBinaryOperator_IOException() {
-        new FailableLongBinaryOperator<IOException>() {
+        assertThrows(IOException.class, () -> new FailableLongBinaryOperator<IOException>() {
 
             @Override
             public long applyAsLong(final long left, final long right) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsLong(0, 0));
     }
 
     /**
@@ -2127,13 +2133,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableLongBinaryOperator_Throwable() {
-        new FailableLongBinaryOperator<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableLongBinaryOperator<Throwable>() {
 
             @Override
             public long applyAsLong(final long left, final long right) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsLong(0, 0));
     }
 
     /**
@@ -2142,15 +2148,15 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableLongConsumer_IOException() {
-        new FailableLongConsumer<IOException>() {
+        assertThrows(IOException.class, () -> new FailableLongConsumer<IOException>() {
 
             @Override
             public void accept(final long object) throws IOException {
                 throw new IOException("test");
 
             }
-        };
-    }
+        }.accept(0));
+     }
 
     /**
      * Tests that our failable interface is properly defined to throw any exception using the top level generic types
@@ -2158,14 +2164,14 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableLongConsumer_Throwable() {
-        new FailableLongConsumer<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableLongConsumer<Throwable>() {
 
             @Override
             public void accept(final long object) throws Throwable {
                 throw new IOException("test");
 
             }
-        };
+        }.accept(0));
     }
 
     /**
@@ -2174,13 +2180,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableLongFunction_IOException() {
-        new FailableLongFunction<String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableLongFunction<String, IOException>() {
 
             @Override
             public String apply(final long input) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.apply(0));
     }
 
     /**
@@ -2189,13 +2195,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableLongFunction_Throwable() {
-        new FailableLongFunction<Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableLongFunction<Object, Throwable>() {
 
             @Override
             public Object apply(final long input) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.apply(0));
     }
 
     /**
@@ -2204,13 +2210,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableLongSupplier_IOException() {
-        new FailableLongSupplier<IOException>() {
+        assertThrows(IOException.class, () -> new FailableLongSupplier<IOException>() {
 
             @Override
             public long getAsLong() throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.getAsLong());
     }
 
     /**
@@ -2219,13 +2225,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableLongSupplier_Throwable() {
-        new FailableLongSupplier<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableLongSupplier<Throwable>() {
 
             @Override
             public long getAsLong() throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.getAsLong());
     }
 
     /**
@@ -2234,13 +2240,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableLongToDoubleFunction_IOException() {
-        new FailableLongToDoubleFunction<IOException>() {
+        assertThrows(IOException.class, () -> new FailableLongToDoubleFunction<IOException>() {
 
             @Override
             public double applyAsDouble(final long value) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsDouble(0));
     }
 
     /**
@@ -2249,13 +2255,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableLongToDoubleFunction_Throwable() {
-        new FailableLongToDoubleFunction<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableLongToDoubleFunction<Throwable>() {
 
             @Override
             public double applyAsDouble(final long value) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsDouble(0));
     }
 
     /**
@@ -2264,13 +2270,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableLongToIntFunction_IOException() {
-        new FailableLongToIntFunction<IOException>() {
+        assertThrows(IOException.class, () -> new FailableLongToIntFunction<IOException>() {
 
             @Override
             public int applyAsInt(final long value) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsInt(0));
     }
 
     /**
@@ -2279,13 +2285,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableLongToIntFunction_Throwable() {
-        new FailableLongToIntFunction<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableLongToIntFunction<Throwable>() {
 
             @Override
             public int applyAsInt(final long value) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsInt(0));
     }
 
     /**
@@ -2294,14 +2300,14 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableObjDoubleConsumer_Object_Throwable() {
-        new FailableObjDoubleConsumer<Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableObjDoubleConsumer<Object, Throwable>() {
 
             @Override
             public void accept(final Object object, final double value) throws Throwable {
                 throw new IOException("test");
 
             }
-        };
+        }.accept(new Object(), 0));
     }
 
     /**
@@ -2310,13 +2316,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableObjDoubleConsumer_String_IOException() {
-        new FailableObjDoubleConsumer<String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableObjDoubleConsumer<String, IOException>() {
 
             @Override
             public void accept(final String object, final double value) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.accept(StringUtils.EMPTY, 0));
     }
 
     /**
@@ -2325,14 +2331,14 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableObjIntConsumer_Object_Throwable() {
-        new FailableObjIntConsumer<Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableObjIntConsumer<Object, Throwable>() {
 
             @Override
             public void accept(final Object object, final int value) throws Throwable {
                 throw new IOException("test");
 
             }
-        };
+        }.accept(new Object(), 0));
     }
 
     /**
@@ -2341,13 +2347,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableObjIntConsumer_String_IOException() {
-        new FailableObjIntConsumer<String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableObjIntConsumer<String, IOException>() {
 
             @Override
             public void accept(final String object, final int value) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.accept(StringUtils.EMPTY, 0));
     }
 
     /**
@@ -2356,14 +2362,14 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableObjLongConsumer_Object_Throwable() {
-        new FailableObjLongConsumer<Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableObjLongConsumer<Object, Throwable>() {
 
             @Override
             public void accept(final Object object, final long value) throws Throwable {
                 throw new IOException("test");
 
             }
-        };
+        }.accept(new Object(), 0));
     }
 
     /**
@@ -2372,13 +2378,17 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableObjLongConsumer_String_IOException() {
-        new FailableObjLongConsumer<String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableObjLongConsumer<String, IOException>() {
 
             @Override
             public void accept(final String object, final long value) throws IOException {
                 throw new IOException("test");
             }
+        }.accept(StringUtils.EMPTY, 0));
+        final FailableObjLongConsumer<String, IOException> f = (o, l) -> {
+            throw new IOException("test");
         };
+        assertThrows(IOException.class, () -> f.accept(StringUtils.EMPTY, 0));
     }
 
     /**
@@ -2387,13 +2397,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailablePredicate_Object_Throwable() {
-        new FailablePredicate<Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailablePredicate<Object, Throwable>() {
 
             @Override
             public boolean test(final Object object) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.test(new Object()));
     }
 
     /**
@@ -2402,13 +2412,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailablePredicate_String_IOException() {
-        new FailablePredicate<String, IOException>() {
+        assertThrows(IOException.class, () -> new FailablePredicate<String, IOException>() {
 
             @Override
             public boolean test(final String object) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.test(StringUtils.EMPTY));
     }
 
     /**
@@ -2417,13 +2427,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableRunnable_IOException() {
-        new FailableRunnable<IOException>() {
+        assertThrows(IOException.class, () -> new FailableRunnable<IOException>() {
 
             @Override
             public void run() throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.run());
     }
 
     /**
@@ -2432,14 +2442,14 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableRunnable_Throwable() {
-        new FailableRunnable<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableRunnable<Throwable>() {
 
             @Override
             public void run() throws Throwable {
                 throw new IOException("test");
 
             }
-        };
+        }.run());
     }
 
     /**
@@ -2448,13 +2458,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableShortSupplier_IOException() {
-        new FailableShortSupplier<IOException>() {
+        assertThrows(IOException.class, () -> new FailableShortSupplier<IOException>() {
 
             @Override
             public short getAsShort() throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.getAsShort());
     }
 
     /**
@@ -2463,13 +2473,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableShortSupplier_Throwable() {
-        new FailableShortSupplier<Throwable>() {
+        assertThrows(IOException.class, () -> new FailableShortSupplier<Throwable>() {
 
             @Override
             public short getAsShort() throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.getAsShort());
     }
 
     /**
@@ -2478,13 +2488,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableSupplier_Object_Throwable() {
-        new FailableSupplier<Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableSupplier<Object, Throwable>() {
 
             @Override
             public Object get() throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.get());
     }
 
     /**
@@ -2493,13 +2503,43 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableSupplier_String_IOException() {
-        new FailableSupplier<String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableSupplier<String, IOException>() {
 
             @Override
             public String get() throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.get());
+    }
+
+    /**
+     * Tests that our failable interface is properly defined to throw any exception using the top level generic types
+     * Object and Throwable.
+     */
+    @Test
+    public void testThrows_FailableToBooleanFunction_Object_Throwable() {
+        assertThrows(IOException.class, () -> new FailableToBooleanFunction<Object, Throwable>() {
+
+            @Override
+            public boolean applyAsBoolean(final Object t) throws Throwable {
+                throw new IOException("test");
+            }
+        }.applyAsBoolean(new Object()));
+    }
+
+    /**
+     * Tests that our failable interface is properly defined to throw any exception using String and IOExceptions as
+     * generic test types.
+     */
+    @Test
+    public void testThrows_FailableToBooleanFunction_String_IOException() {
+        assertThrows(IOException.class, () -> new FailableToBooleanFunction<String, IOException>() {
+
+            @Override
+            public boolean applyAsBoolean(final String t) throws IOException {
+                throw new IOException("test");
+            }
+        }.applyAsBoolean(StringUtils.EMPTY));
     }
 
     /**
@@ -2508,13 +2548,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableToDoubleBiFunction_Object_Throwable() {
-        new FailableToDoubleBiFunction<Object, Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableToDoubleBiFunction<Object, Object, Throwable>() {
 
             @Override
             public double applyAsDouble(final Object t, final Object u) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsDouble(new Object(), new Object()));
     }
 
     /**
@@ -2523,13 +2563,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableToDoubleBiFunction_String_IOException() {
-        new FailableToDoubleBiFunction<String, String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableToDoubleBiFunction<String, String, IOException>() {
 
             @Override
             public double applyAsDouble(final String t, final String u) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsDouble(StringUtils.EMPTY, StringUtils.EMPTY));
     }
 
     /**
@@ -2538,13 +2578,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableToDoubleFunction_Object_Throwable() {
-        new FailableToDoubleFunction<Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableToDoubleFunction<Object, Throwable>() {
 
             @Override
             public double applyAsDouble(final Object t) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsDouble(new Object()));
     }
 
     /**
@@ -2553,13 +2593,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableToDoubleFunction_String_IOException() {
-        new FailableToDoubleFunction<String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableToDoubleFunction<String, IOException>() {
 
             @Override
             public double applyAsDouble(final String t) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsDouble(StringUtils.EMPTY));
     }
 
     /**
@@ -2568,13 +2608,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableToIntBiFunction_Object_Throwable() {
-        new FailableToIntBiFunction<Object, Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableToIntBiFunction<Object, Object, Throwable>() {
 
             @Override
             public int applyAsInt(final Object t, final Object u) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsInt(new Object(), new Object()));
     }
 
     /**
@@ -2583,13 +2623,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableToIntBiFunction_String_IOException() {
-        new FailableToIntBiFunction<String, String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableToIntBiFunction<String, String, IOException>() {
 
             @Override
             public int applyAsInt(final String t, final String u) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsInt(StringUtils.EMPTY, StringUtils.EMPTY));
     }
 
     /**
@@ -2598,13 +2638,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableToIntFunction_Object_Throwable() {
-        new FailableToIntFunction<Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableToIntFunction<Object, Throwable>() {
 
             @Override
             public int applyAsInt(final Object t) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsInt(new Object()));
     }
 
     /**
@@ -2613,13 +2653,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableToIntFunction_String_IOException() {
-        new FailableToIntFunction<String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableToIntFunction<String, IOException>() {
 
             @Override
             public int applyAsInt(final String t) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsInt(StringUtils.EMPTY));
     }
 
     /**
@@ -2628,13 +2668,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableToLongBiFunction_Object_Throwable() {
-        new FailableToLongBiFunction<Object, Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableToLongBiFunction<Object, Object, Throwable>() {
 
             @Override
             public long applyAsLong(final Object t, final Object u) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsLong(new Object(), new Object()));
     }
 
     /**
@@ -2643,13 +2683,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableToLongBiFunction_String_IOException() {
-        new FailableToLongBiFunction<String, String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableToLongBiFunction<String, String, IOException>() {
 
             @Override
             public long applyAsLong(final String t, final String u) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsLong(StringUtils.EMPTY, StringUtils.EMPTY));
     }
 
     /**
@@ -2658,13 +2698,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableToLongFunction_Object_Throwable() {
-        new FailableToLongFunction<Object, Throwable>() {
+        assertThrows(IOException.class, () -> new FailableToLongFunction<Object, Throwable>() {
 
             @Override
             public long applyAsLong(final Object t) throws Throwable {
                 throw new IOException("test");
             }
-        };
+        }.applyAsLong(new Object()));
     }
 
     /**
@@ -2673,13 +2713,13 @@ public class FailableFunctionsTest extends AbstractLangTest {
      */
     @Test
     public void testThrows_FailableToLongFunction_String_IOException() {
-        new FailableToLongFunction<String, IOException>() {
+        assertThrows(IOException.class, () -> new FailableToLongFunction<String, IOException>() {
 
             @Override
             public long applyAsLong(final String t) throws IOException {
                 throw new IOException("test");
             }
-        };
+        }.applyAsLong(StringUtils.EMPTY));
     }
 
     @Test

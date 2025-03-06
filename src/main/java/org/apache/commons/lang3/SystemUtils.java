@@ -17,6 +17,8 @@
 package org.apache.commons.lang3;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Helpers for {@link System}.
@@ -2062,6 +2064,18 @@ public class SystemUtils {
     }
 
     /**
+     * Gets the current Java home directory as a {@link File}.
+     *
+     * @return a directory
+     * @throws SecurityException if a security manager exists and its {@code checkPropertyAccess} method doesn't allow access to the specified system property.
+     * @see SystemProperties#getJavaHome()
+     * @since 3.18.0
+     */
+    public static Path getJavaHomePath() {
+        return Paths.get(SystemProperties.getJavaHome());
+    }
+
+    /**
      * Gets the current Java IO temporary directory as a {@link File}.
      *
      * @return a directory
@@ -2071,6 +2085,18 @@ public class SystemUtils {
      */
     public static File getJavaIoTmpDir() {
         return new File(SystemProperties.getJavaIoTmpdir());
+    }
+
+    /**
+     * Gets the current Java IO temporary directory as a {@link Path}.
+     *
+     * @return a directory
+     * @throws SecurityException if a security manager exists and its {@code checkPropertyAccess} method doesn't allow access to the specified system property.
+     * @see SystemProperties#getJavaIoTmpdir()
+     * @since 3.18.0
+     */
+    public static Path getJavaIoTmpDirPath() {
+        return Paths.get(SystemProperties.getJavaIoTmpdir());
     }
 
     /**
@@ -2135,6 +2161,21 @@ public class SystemUtils {
     }
 
     /**
+     * Gets the current user directory as a {@link Path}.
+     * <p>
+     * The result is based on the system property {@value SystemProperties#USER_DIR}.
+     * </p>
+     *
+     * @return a directory
+     * @throws SecurityException if a security manager exists and its {@code checkPropertyAccess} method doesn't allow access to the specified system property.
+     * @see SystemProperties#getUserDir()
+     * @since 3.18.0
+     */
+    public static Path getUserDirPath() {
+        return Paths.get(SystemProperties.getUserDir());
+    }
+
+    /**
      * Gets the current user home directory as a {@link File}.
      * <p>
      * The result is based on the system property {@value SystemProperties#USER_HOME}.
@@ -2147,6 +2188,21 @@ public class SystemUtils {
      */
     public static File getUserHome() {
         return new File(SystemProperties.getUserHome());
+    }
+
+    /**
+     * Gets the current user home directory as a {@link Path}.
+     * <p>
+     * The result is based on the system property {@value SystemProperties#USER_HOME}.
+     * </p>
+     *
+     * @return a directory
+     * @throws SecurityException if a security manager exists and its {@code checkPropertyAccess} method doesn't allow access to the specified system property.
+     * @see SystemProperties#getUserHome()
+     * @since 3.18.0
+     */
+    public static Path getUserHomePath() {
+        return Paths.get(SystemProperties.getUserHome());
     }
 
     /**

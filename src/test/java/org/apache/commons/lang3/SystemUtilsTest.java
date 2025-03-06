@@ -29,6 +29,8 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
@@ -284,10 +286,30 @@ public class SystemUtilsTest extends AbstractLangTest {
      * Assumes no security manager exists.
      */
     @Test
+    public void testGetJavaHomePath() {
+        final Path dir = SystemUtils.getJavaHomePath();
+        assertNotNull(dir);
+        assertTrue(Files.exists(dir));
+    }
+
+    /**
+     * Assumes no security manager exists.
+     */
+    @Test
     public void testGetJavaIoTmpDir() {
         final File dir = SystemUtils.getJavaIoTmpDir();
         assertNotNull(dir);
         assertTrue(dir.exists());
+    }
+
+    /**
+     * Assumes no security manager exists.
+     */
+    @Test
+    public void testGetJavaIoTmpDirPath() {
+        final Path dir = SystemUtils.getJavaIoTmpDirPath();
+        assertNotNull(dir);
+        assertTrue(Files.exists(dir));
     }
 
     /**
@@ -304,10 +326,30 @@ public class SystemUtilsTest extends AbstractLangTest {
      * Assumes no security manager exists.
      */
     @Test
+    public void testGetUserDirPath() {
+        final Path dir = SystemUtils.getUserDirPath();
+        assertNotNull(dir);
+        assertTrue(Files.exists(dir));
+    }
+
+    /**
+     * Assumes no security manager exists.
+     */
+    @Test
     public void testGetUserHome() {
         final File dir = SystemUtils.getUserHome();
         assertNotNull(dir);
         assertTrue(dir.exists());
+    }
+
+    /**
+     * Assumes no security manager exists.
+     */
+    @Test
+    public void testGetUserHomePath() {
+        final Path dir = SystemUtils.getUserHomePath();
+        assertNotNull(dir);
+        assertTrue(Files.exists(dir));
     }
 
     /**
